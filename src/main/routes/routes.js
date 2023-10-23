@@ -9,7 +9,7 @@ router.get('/', (req, resp) => {
 })
 router.get('/users', getUsers)
 router.get('/users/:id', getUserById)
-router.post('/adicionar-usuario', createUser)
+router.post('/users', createUser)
 router.put('/users/:id', updateUser)
 router.delete('/users/:id', deleteUser)
 
