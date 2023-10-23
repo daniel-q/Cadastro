@@ -1,5 +1,9 @@
 const {User} = require("../../settings.js")
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 
 
@@ -54,7 +58,7 @@ class UserRepository{
         }
       }
 
-    updateUser(req, resp) {
+    async  updateUser(req, resp) {
         const id = parseInt(req.params.id)
         let { name, email, senha } = req.body
         senha = bcrypt.hashSync(senha, 10)  
@@ -80,6 +84,47 @@ class UserRepository{
         resp.status(200).send(`User deleted with ID: ${id}`)
         })
     }
+    async login(req, resp){
+      try {
+        const {emailvalue,senha} = req.body;
+        const user = await User.findONe({ where: { email: emailvalue } });
+        if (user) {
+          if(bcrypt.compareSync(senha, user.senha)){
+            const token = jwt.sign({ sub: user.id}, process.env.KEY, {
+              expiresIn: '1h' // Defina a expiração do token como apropriado
+            });
+          
+            res.json({ token });
+
+          }
+          else{
+            resp.status(404).json({ error: 'Senha incorreta.' });
+          }
+        } else {
+          resp.status(404).json({ error: 'Usuário não encontrado.' });
+        }
+      } catch (error) {
+        console.error(error);
+        resp.status(500).json({ error: 'Erro ao buscar o usuário.' });
+      }
+    }
+    authorize(req, res, next) {
+        const token = req.headers.authorization;
+    
+        if (!token) {
+          return res.status(401).json({ message: 'Token não fornecido' });
+        }
+    
+        jwt.verify(token, secretKey, (err, decoded) => {
+          if (err) {
+            return res.status(401).json({ message: 'Token inválido' });
+          }
+          next();
+        });
+      
+    }
+    
+
 }
 
 module.exports = {UserRepository}
