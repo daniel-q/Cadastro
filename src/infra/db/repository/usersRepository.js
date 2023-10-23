@@ -1,4 +1,4 @@
-const {sequelize,User} = require("../../settings.js")
+const {User} = require("../../settings.js")
 const bcrypt = require('bcryptjs')
 
 

@@ -1,5 +1,5 @@
 const { UserRepository } = require("../../infra/db/repository/usersRepository.js")
-const {sequelize,User} = require("../../infra/settings.js")
+const {User} = require("../../infra/settings.js")
 
 
 const getUsers = (req, resp) => {

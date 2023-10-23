@@ -11,7 +11,7 @@ const sequelize = new Sequelize({
   password: process.env.MYSQL_PASSWORD,
 });
 
-const User = sequelize.define('Formulario2', {
+const User = sequelize.define('Clientes', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -64,9 +64,9 @@ const User = sequelize.define('Formulario2', {
     defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
   },
 }, {
-  tableName: 'formulario2',
+  tableName: 'Cliente',
   timestamps: false,
 });
 
-module.exports = {sequelize,User};
+module.exports = {User};
 
