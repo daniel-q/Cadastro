@@ -110,13 +110,14 @@ class UserRepository{
       }
     }
     authorize(req, res, next) {
-        const token = req.headers.authorization;
+        const token = req.headers.authorization;  
+        console.log(typeof token)
     
         if (!token) {
           return res.status(401).json({ message: 'Token não fornecido' });
         }
     
-        jwt.verify(token, secretKey, (err, decoded) => {
+        jwt.verify(token, process.env.KEY, (err, decoded) => {
           if (err) {
             return res.status(401).json({ message: 'Token inválido' });
           }
