@@ -85,16 +85,17 @@ class UserRepository{
         })
     }
     async login(req, resp){
+      console.log("teste")
       try {
         const {emailvalue,senha} = req.body;
-        const user = await User.findONe({ where: { email: emailvalue } });
+        const user = await User.findOne({ where: { email: emailvalue } });
         if (user) {
           if(bcrypt.compareSync(senha, user.senha)){
             const token = jwt.sign({ sub: user.id}, process.env.KEY, {
               expiresIn: '1h' // Defina a expiração do token como apropriado
             });
           
-            res.json({ token });
+            resp.json({ token });
 
           }
           else{

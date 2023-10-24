@@ -1,6 +1,6 @@
 USE form1
 
-CREATE TABLE formulario2 (
+CREATE TABLE Cliente (
     id integer PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
